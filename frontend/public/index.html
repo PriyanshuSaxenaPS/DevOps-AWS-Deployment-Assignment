@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AWS Deployment Project</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #eef2f7;
+            margin: 0;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: 50px auto;
+            background: white;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px #0001;
+        }
+
+        h1 {
+            color: #232f3e;
+        }
+
+        button {
+            background: #ff9900;
+            border: none;
+            padding: 14px 25px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #result {
+            margin-top: 25px;
+            padding: 15px;
+            background: #f0f7ff;
+            border-radius: 8px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>AWS Deployment Assignment</h1>
+
+        <p>Flask Backend + Express Frontend</p>
+
+        <p>Deployment using Amazon EC2, Docker, ECR and ECS.</p>
+
+        <button onclick="getMessage()">
+            Connect to Flask Backend
+        </button>
+
+        <div id="result">
+            Click the button to test the backend.
+        </div>
+    </div>
+
+    <script>
+        async function getMessage() {
+            const result = document.getElementById("result");
+
+            result.innerText = "Connecting to backend...";
+
+            try {
+                const response = await fetch("/api/message");
+                const data = await response.json();
+
+                result.innerText = JSON.stringify(data, null, 2);
+            } catch (error) {
+                result.innerText = "Error connecting to backend.";
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+
+const express = require("express");
+const path = require("path");
+
+const app = express();
+
+const PORT = process.env.PORT || 3000;
+const BACKEND_URL =
+    process.env.BACKEND_URL || "http://127.0.0.1:5000";
+
+app.use(express.static(path.join(__dirname, "public")));
+
+app.get("/api/message", async (req, res) => {
+    try {
+        const response = await fetch(`${BACKEND_URL}/api/hello`);
+
+        if (!response.ok) {
+            throw new Error("Backend returned an error");
+        }
+
+        const data = await response.json();
+
+        res.json(data);
+    } catch (error) {
+        console.error("Backend connection error:", error.message);
+
+        res.status(502).json({
+            status: "error",
+            message: "Unable to connect to Flask backend"
+        });
+    }
+});
+
+app.get("/health", (req, res) => {
+    res.json({
+        status: "healthy",
+        service: "Express Frontend"
+    });
+});
+
+app.listen(PORT, "0.0.0.0", () => {
+    console.log(`Express server running on port ${PORT}`);
+    console.log(`Backend URL: ${BACKEND_URL}`);
+});
